@@ -2,18 +2,11 @@ The **H**ierarchical **O**bject-**S**torage **T**ask **E**ngine & **S**ync **S**
 
 
 
-## Core Concepts
+## Roadmap
 
-### things Rose needs
-
-multiple lists
-
-duplicatable lists
-
-template lists
-
+See [Roadmap](./Roadmap.md)
 
 
 ## Implementation guide
 
-See [[Implementation requirements]]
+See [Implementation requirements](./Implementation%20requirements.md)
