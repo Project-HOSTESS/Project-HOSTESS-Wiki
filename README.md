@@ -2,11 +2,16 @@ The **H**ierarchical **O**bject-**S**torage **T**ask **E**ngine & **S**ync **S**
 
 
 
-## Roadmap
+## Roadmap & features
 
-See [Roadmap](./Roadmap.md)
+See [Roadmap](./Roadmap.md) and [General Concepts](./General%20Concepts.md)
 
 
 ## Implementation guide
 
 See [Implementation requirements](./Implementation%20requirements.md)
+
+
+## Reference implementations
+
+Officially-endorsed reference implementations can be found in the [HOSTESS reference implementations & examples repository](https://github.com/Project-HOSTESS/HOSTESS-References-and-Examples).

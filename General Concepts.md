@@ -1,5 +1,9 @@
 # Project HOSTESS General Concepts
 
+This document was originally written in 2018, when this project had somewhat different base assumptions. Starting January 2026, it's being updated to include its current concepts.
+
+The original version of this document was a wishlist of ideas. A lot of those remain in this version, and are slowly being replaced as implementations become more concrete.
+
 [GitHub](https://github.com/Project-HOSTESS/)
 
 1. [Structure](#Structure)
@@ -11,7 +15,7 @@
 
 
 
-## [Structure](#Structure)
+## [Structure](#structure)
 
 ### Worlds
 
@@ -33,7 +37,7 @@ A Tasklist can be recurring or one-shot. When recurring tasklists recur, their c
 
 ### Tasks
 
-A **Task** is a myopic item that must be completed. Tasks can contain subtasks (which are also Tasks).
+A **Task** is an atomic item that must be completed. Tasks can contain subtasks (which are also Tasks).
 
 A Task is considered complete when all its subtasks are also complete.
 
@@ -41,6 +45,7 @@ Tasks can belong to exactly one Tasklist, but can be displayed, changed, and ref
 
 A Task can be recurring or one-shot.
 
+The default behavior of recurring tasks is as follows, but can be changed (e.g. user preferences, hacking, automation, client implementation, etc.):
 - When recurring tasks recur, their completion state is reset.
 - The recurring/one-shot property is inherited from the task's list by default, but can be changed.
 - One-shot tasks within recurring tasks and tasklists are _not_ reset when the tasklist recurs.
@@ -48,17 +53,17 @@ A Task can be recurring or one-shot.
 
 
 
-## [Priority](#Priority)
+## [Priority](#priority)
 
 A cascading priority system will allow users to let themselves, others with viewing permission, and the app's automation to understand how to prioritize things.
 
-1. User preferences dictate the default priority (first install starts with Medium).
-2. Updating that preference gives the option to cascade the change or leave existing tasks at their current priority.
+1. User preferences dictate the default priority (if unchanged, Medium).
+2. Updating that preference gives the option to cascade the change or leave existing tasks at their current priority
 3. Each group has its own priority. By default this is the same as the user's preference.
 4. Each tasklist group has its own priority. By default this is the same as its group's.
 5. Each item in a tasklist has its own priority. By default this is the same as the tasklist's.
 
-### [Priority tiers can be customized](#Priority_Customization)
+### [Priority tiers can be customized](#priority-tiers-can-be-customized)
 
 Priorities have arbitrary numbers associated (string-parsed real decimal numbers). Priorities have arbitrary colors associated.
 
@@ -67,7 +72,7 @@ Defaults:
 1. Immediate - 1000
 2. Very High - 800
 3. High - 700
-4. Medium - 500
+4. Medium - 500 _(default)_
 5. Low - 300
 6. Very Low - 200
 7. On hold - 100
@@ -75,70 +80,69 @@ Defaults:
 
 
 
-## [Cloud](#Cloud)
+## [Cloud](#cloud)
 
-- All data will be saved to a set of servers. That said, a 3rd-party, personal, or local (on-same-machine) server can be used if you want.
-- Data will be encrypted in storage and transmission
-- You will be able to share and collaborate on groups or tasklists with others using the same server set. You cannot share or collaborate on worlds; those are for separation of personal mindsets.
+Sync using whatever you want. It's just JSON files in folders.
 
-
-
-## [Automation](#Automation)
-
-> This app will have a strong emphasis on automatability.
-
-### [Other-to-app hierarchy](#Automation_Other-to-app)
-
-1. Platform-specific automation events are caught by a specialized plugin for each platform. This allows many approaches, such as Tasker, Apple Events, network-pushed events, etc. to all automate the app.
-2. Plugins will conform to a specific API that describes all the ways the app can be automated.
-3. The app's central automation service will listen for events fired by plugins via the API via sockets, and automate the app.
-
-### [App-to-other](#Automation_App-to-other)
-
-1. Internal events that are registered as triggering external events will fire to the central automation service.
-2. The automation service will pass these events on to any plugins that are registered as listening for them via a similar API as the one used for other-to-app automation.
-3. The plugin will then perform the action it deems necessary upon receiving the event.
-
-### [Preinstalled plugins](#Automation_Preinstalled-plugins)
-
-Out-of-the-box, the app will come with plugins for sending notifications to the OS, receiving location change events, etc.
+We are working on a sync system based on Git, but that won't be completed for awhile.
 
 
 
-## [UI](#UI)
+## [Automation](#automation)
 
-The UI hasn't been fleshed-out, but it's absolutely crucial that it is made beautiful, delightful, and intuitive. If not, the complexity of the functionality may be miscommunicated, daunting, or just confusing.
+> This platform has a strong emphasis on automatability.
 
-### [Notifications](#UI_Notifications)
+### [Other-to-app hierarchy](#other-to-app-hierarchy)
+
+1. Platform-specific automation events are caught by a specialized plugin for each platform. This allows many approaches, such as Tasker, Shortcuts, Automate, Power Tools, network-pushed events, etc. to all automate the app.
+2. Plugins conform to a specific API (to be determined) that describes all the ways the app can be automated. Direct manipulation of the data is strongly discouraged for many reasons, including race conditions)
+3. The app's central automation service will listen for incoming events via its API (e.g. using networking/sockets), which it will then use to perform the automation (or not, if denied for, e.g., permissions)
+
+### [App-to-other](#app-to-other)
+
+1. Internal events that are registered as triggering automation events, do so by notifying the central automation service.
+2. The automation service will pass these events on to any plugins that are registered as listening for them via a similar API (TBD) as the one used for other-to-app automation.
+3. The plugin will then perform any action it wants upon receiving the event.
+
+
+
+## [UI](#ui)
+
+UI implementers are _strongly_ encouraged to made beautiful, delightful, and intuitive user experiences. If not, the complexity of the functionality may be miscommunicated, daunting, overly-limiting, or just confusing.
+
+### [Notifications](#notifications)
 
 Notifications are very important in a task management app. In fact, one might argue they're the _most_ important. This means they _must_ be just right, or this app will fail.
 
-- Always use platform-native notifications; these are what the user expects
+- Always use platform-native notifications; these are what the user expects. Banners on desktop/phone OSs, login messages in terminals, toasts in webpages, etc.
 - Allow notifications to occur _before_ the due date, up to some arbitrary amount the user can specify (e.g. 1 week before, 5 minutes before, etc.)
 
+Notifications will be implemented as automation plugins.
 
 
-## [Delightful features](#Delightful-Features)
 
-Delight is essential to the user enjoying the experience of using the app. Here are a few ideas for how this app can be more delightful:
+## [Delightful features](#delightful-features)
 
-- Location-based silencing and hiding of tasks
+Delight is essential to the user enjoying the experience of using an app, and improves their learning/intuition of the app's functions. Here are a few ideas for how a HOSTESS app can be more delightful:
+
+- Location-based notifications, and silencing & hiding of tasks
 - Tiered sorting (both soft and hard), like "By completion status, then by date due, then by name, then by date made"
-- Certain tasks can be "pinned to top" to guarantee they're always in your head. Maximum priority and imminently-due tasks can thus be set to be elevated above these priorities.
-- Custom tags can be assigned to groups, tasklists, and tasks. These will be reflected in a Tags view and in search queries
-- Completion statuses similar to priority tiers (defaults included, customs supported), but can be localized to a single structure
-- Defer until another task anywhere else is completed
+- Certain tasks can be "pinned to top" to guarantee they're always in your head.
+	- Maximum priority and imminently-due tasks can thus be set to be elevated above pinned tasks.
+- Custom tags can be assigned to HOSTESS items (worlds, groups, tasklists, tasks...). These should be reflected in a Tags view and in search queries
+<!-- - Completion statuses similar to priority tiers (defaults included, customs supported), but can be localized to a single structure -- what does this mean???-->
+- Defer until some other task somewhere else is completed
 
 
 
-## [Cross-Platform](#Cross-Platform)
+## [Cross-Platform](#cross-platform)
 
 This will be available on all major platforms, using this stack:
 
-|              |    macOS    |     iOS     |    Windows    |     Linux     | Android  |   Web   |
-|-------------:|-------------|-------------|---------------|---------------|----------|---------|
-|   UI Platform|    Cocoa    | Cocoa Touch |Swing or JavaFX|Swing or JavaFX| Material |HTML+CSS |
-|   UI Language|Kotlin/Native|Kotlin/Native|  Kotlin/JVM   |  Kotlin/JVM   |Kotlin/JVM|Kotlin/JS|
-|   Local Logic|Kotlin/Native|Kotlin/Native|  Kotlin/JVM   |  Kotlin/JVM   |Kotlin/JVM|Kotlin/JS|
-|   Cloud Logic|  Kotlin/JS  |  Kotlin/JS  |   Kotlin/JS   |   Kotlin/JS   |Kotlin/JS |Kotlin/JS|
-|Cloud Platform|   Node.JS   |   Node.JS   |    Node.JS    |    Node.JS    | Node.JS  | Node.JS |
+|              | macOS |  iOS  |Windows|Linux| Android  |   Web   |
+|-------------:|-------|-------|-------|-----|----------|---------|
+|   UI Platform|SwiftUI|SwiftUI|  TBD  | TBD | Compose  |   TBD   |
+|   UI Language| Swift | Swift | Swift |Swift|Kotlin/JVM|Kotlin/JS|
+|   Local Logic| Swift | Swift | Swift |Swift|Kotlin/JVM|Kotlin/JS|
+|   Cloud Logic|  TBD  |  TBD  |  TBD  | TBD |   TBD    |   TBD   |
+|Cloud Platform|  TBD  |  TBD  |  TBD  | TBD |   TBD    |   TBD   |
