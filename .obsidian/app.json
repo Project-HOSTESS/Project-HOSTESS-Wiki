@@ -1,4 +1,5 @@
 {
   "livePreview": false,
-  "showLineNumber": true
+  "showLineNumber": true,
+  "readableLineLength": false
 }
