@@ -4,11 +4,10 @@
 
 ## Object Storage
 
-See: Project SHELF
+See: [SHELF](https://github.com/KyNorthstar/SHELF)
 
 For HOSTESS, object storage is a bunch of files in folders organized in a way that each leaf file is the object you're looking for, whose name is an ID where its parent folders are the first characters of that ID. Keep reading for examples!
 
-See also: [SHELF](https://github.com/KyNorthstar/SHELF)
 
 ### Topology
 
@@ -32,7 +31,7 @@ Therefore, these IDs can be converted back to UUIDs by appending `==`, convertin
 
 In memory, do whatever you want. This spec only matters for storage & transmission.
 
-> The [kyuuid](https://github.com/RougeWare/UuidTools#kyuuid) utility can be used to 
+> The [kyuuid](https://github.com/RougeWare/UuidTools#kyuuid) utility can be used to generate these truncated Base64 UUIDs
 
 
 ### Content format
@@ -53,14 +52,17 @@ Always and forever, HOSTESS object files is be formatted as JSON content, and co
 
 where `...metadata` is key-value pairs which can change based on the format version, such as a type specifier; `...content` is key-value pairs which constitute the actual user data in the object, whose format is arbitrary but might have its own format version/scheme. Future versions may or may not tie the top-level format specifier to the content.
 
-This is what will **always** be required of any HOSTESS object file: a top-level `_v` key pointing to a SEMVER-formatted string specifying the format version of the file, some metadata on that same level, and the content nested in its own object keyed by `_c`.
+This is what will **always** be required of any HOSTESS object file: 
+- a top-level `_v` key pointing to a SEMVER-formatted string specifying the format version of the file, the content nested in its own object keyed by `_c`.
+
+HOSTESS also allows for some metadata on the top level, as long as its keys don't start with `_`.
 
 Here's a table of each top-level key that will always be required in a HOSTESS object:
 
-|  key | meaning            |
-|-----:|:-------------------|
-| `_v` | Version of format  |
-| `_c` | Contents of object |
+|  key | meaning                |
+|-----:|:-----------------------|
+| `_v` | Version of the format  |
+| `_c` | Contents of the object |
 
 > Of course, in production, there won't be unnecessary whitespace in these files
 
@@ -70,12 +72,13 @@ Here's a table of each top-level key that will always be required in a HOSTESS o
 As an example of what a real object might look like, here's a HOSTESS task:
 
 ```json
-{"_v":"0.1.0","t":"task","_c":{"body":"Clean the basement","parent":"2ODRYEVpRruVPMysmQXBcA","tags":["8cNk7mE1SHygp0NSIBdqjg","v/h4G6JoQ++YWX67VFIWxQ","b3rdNT48TbGcdP6uxRG83g"],"state":"Complete"}}
+{"_v":"0.1.0","id":"DJX/DxC/R+SCAEfCEnVogQ","t":"task","_c":{"body":"Clean the basement","parent":"2ODRYEVpRruVPMysmQXBcA","tags":["8cNk7mE1SHygp0NSIBdqjg","v/h4G6JoQ++YWX67VFIWxQ","b3rdNT48TbGcdP6uxRG83g"],"state":"Complete"}}
 ```
 or, expanded:
 ```json
 {
    "_v": "0.1.0",
+   "id": "DJX/DxC/R+SCAEfCEnVogQ",
    "t": "task",
    "_c":
    {
@@ -91,4 +94,4 @@ or, expanded:
 }
 ```
 
-In this example, the `"t": "task"` field and the entire contents of the `"_c"` field are version-dependent and might change (and need migration) in future versions.
+In this example, the `"t"` and `"id"` fields (and the contents of the `"_c"` field) are version-dependent and might change (and need migration) in future versions.
