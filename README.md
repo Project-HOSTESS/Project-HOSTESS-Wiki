@@ -6,6 +6,10 @@ The **H**ierarchical **O**bject-**S**torage **T**ask **E**ngine & **S**ync **S**
 
 See [Roadmap](./Roadmap.md) and [General Concepts](./General%20Concepts.md)
 
+### Goals
+
+See [Goals](./Goals.md)
+
 
 ## Implementation guide
 
