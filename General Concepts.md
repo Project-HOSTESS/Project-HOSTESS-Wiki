@@ -35,6 +35,8 @@ A Tasklist can belong to exactly one Group, but can be displayed, changed, and r
 
 A Tasklist can be recurring or one-shot. When recurring tasklists recur, their completion state is reset.
 
+While a Task can have sub-tasks, this differs from a Tasklist in that the Tasklist itself is not a task, but can have state like tags and filters.
+
 ### Tasks
 
 A **Task** is an atomic item that must be completed. Tasks can contain subtasks (which are also Tasks).
