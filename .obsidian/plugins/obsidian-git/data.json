@@ -61,7 +61,7 @@
     },
     "textColorCss": "hsl(0deg,0%,90%)",
     "ignoreWhitespace": true,
-    "gutterSpacingFallbackLength": 14,
+    "gutterSpacingFallbackLength": 15,
     "lastShownAuthorDisplay": "first name",
     "lastShownDateTimeFormatOptions": "natural language"
   }
