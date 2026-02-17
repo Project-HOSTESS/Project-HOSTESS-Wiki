@@ -4,16 +4,17 @@ The **H**ierarchical **O**bject-**S**torage **T**ask **E**ngine & **S**ync **S**
 
 ## Roadmap & features
 
-See [Roadmap](./Roadmap.md) and [General Concepts](./General%20Concepts.md)
+- See [Roadmap](Roadmap.md)
+
 
 ### Goals
 
 See [Goals](./Goals.md)
 
 
-## Implementation guide
+## Implementation spec
 
-See [Implementation requirements](./Implementation%20requirements.md)
+Various documents relating to the specifications for implementing HOSTESS are in [the Spec folder](./Spec/README.md)
 
 
 ## Reference implementations
