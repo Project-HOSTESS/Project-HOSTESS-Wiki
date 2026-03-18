@@ -2,13 +2,14 @@
 
 Since HOSTESS is meant to be a long-term backend for any task, the files will need to meet these goals:
 
-1. **Plaintext** - No file format has stood the test of time longer than plain text
-2. **Standard** - The plain text must be shaped as an open format; one that is so popular that most languages have a parser for it built into the standard library.
-3. **Secure** - In-flight encryption should be enforced as required. Clients are encouraged to encrypt at-rest as well.
-4. **Scalable** - Folks are gonna grow their task lists very large. HOSTESS needs to keep up with unreasonable power users. Want to only have one to-do list which takes up a Terabyte? HOSTESS shouldn't stop you.
-5. **Fast** - Clients shouldn't be bogged down just reading and writing files! Whatever this ends up being, it should be snappy.
-6. **Updatable** - This won't be perfect the first time. If, at some point in the future, something we aren't thinking of today needs to be deprecated or introduced, that should be easy and straightforward.
-7. **FOSS** - Developed and maintained in the open, fully free for anyone to use, hack, fork, and contribute to.
+1. **Portable** - No lock-in at all. Everything must be easy to take out of HOSTESS and put somewhere else.
+2. **Plaintext** - No file format has stood the test of time longer than plain text
+3. **Standard** - The plain text must be shaped as an open format; one that is so popular that most languages have a parser for it built into the standard library.
+4. **Secure** - In-flight encryption should be enforced as required. Clients are encouraged to encrypt at-rest as well.
+5. **Scalable** - Folks are gonna grow their task lists very large. HOSTESS needs to keep up with unreasonable power users. Want to only have one to-do list which takes up a Terabyte? HOSTESS shouldn't stop you.
+6. **Fast** - Clients shouldn't be bogged down just reading and writing files! Whatever this ends up being, it should be snappy.
+7. **Updatable** - This won't be perfect the first time. If, at some point in the future, something we aren't thinking of today needs to be deprecated or introduced, that should be easy and straightforward.
+8. **FOSS** - Developed and maintained in the open, fully free for anyone to use, hack, fork, and contribute to.
 
 ### [A Note On the "Secure" Goal](#a-note-on-the-secure-goal)
 
